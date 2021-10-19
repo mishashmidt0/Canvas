@@ -15,16 +15,17 @@ ctx.lineCap = "round";
 ctx.lineWidth = 100;
 // служит для остановки рисование
 let isDrawing = false;
-
 // координаты перемещение мыши 
 let lastX = 0;
 let lastY = 0;
+// Используеться для изменение цвета
+let hue = 0;
+let direction = true;
 
 function draw(e) {
     if (!isDrawing) return  // остановить рисование когда мышь отжата
-
-    console.log(e)
-
+    //цвет линии
+    ctx.strokeStyle = `hsl(${hue},100%,50%)`;
     // создает контур
     ctx.beginPath();
 
@@ -41,6 +42,13 @@ function draw(e) {
     [lastX, lastY] = [e.offsetX, e.offsetY]
     // lastX = e.offsetX;
     // lastY = e.offsetY;
+
+    //изменение цвета
+    hue += 0.1;
+    if (hue >= 360) hue = 0;
+
+    if (ctx.lineWidth >= 150 || ctx.lineWidth <= 1) direction = !direction;
+    (direction) ? ctx.lineWidth += 0.1 : ctx.lineWidth -= 0.1;
 };
 
 canvas.addEventListener("mousemove", draw);
